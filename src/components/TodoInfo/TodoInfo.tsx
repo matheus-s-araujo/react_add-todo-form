@@ -17,7 +17,7 @@ export const TodoInfo = ({ todo }: TodoInfoProps) => {
     >
       <h2 className="TodoInfo__title">{todo.title}</h2>
 
-      <UserInfo user={todo.user} />
+      {todo.user && <UserInfo user={todo.user} />}
 
       {/* Verificar o valor de todos os campos de um todo
       <br />

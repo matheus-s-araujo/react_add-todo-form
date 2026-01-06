@@ -21,11 +21,6 @@ const todoInfos = todosFromServer.map(todo => {
   };
 });
 
-const getBiggerTodoId =
-  todosFromServer.reduce((maxId, todo) => {
-    return todo.id > maxId ? todo.id : maxId;
-  }, 0) + 1;
-
 export const App = () => {
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
@@ -36,8 +31,8 @@ export const App = () => {
 
   const [userId, setUserId] = useState<number | null>(null);
   const [hasUserIdError, setHasUserIdError] = useState(false);
-  const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserId(Number(e.target.value));
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(Number(event.target.value));
     setHasUserIdError(false);
   };
 
@@ -59,8 +54,13 @@ export const App = () => {
 
     const selectedUser = usersFromServer.find(user => user.id === userId);
 
+    const nextId =
+      userTodo.reduce((maxId, todo) => {
+        return todo.id > maxId ? todo.id : maxId;
+      }, 0) + 1;
+
     const newTodo: Todos = {
-      id: getBiggerTodoId,
+      id: nextId,
       title,
       userId,
       completed: false,
@@ -75,7 +75,7 @@ export const App = () => {
     setUserTodo(prev => [...prev, newTodo]);
 
     setTitle('');
-    setUserId(0);
+    setUserId(null);
     setHasTitleError(false);
     setHasUserIdError(false);
   };

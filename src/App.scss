@@ -12,13 +12,14 @@ button {
 }
 
 .error {
-  border: 2px solid red;
-}
-
-.error__message {
   margin: 0;
   color: red;
   font-size: 10px;
+}
+
+.error__field {
+  border: 2px solid red;
+
 }
 
 .field {

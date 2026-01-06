@@ -21,6 +21,11 @@ const todoInfos = todosFromServer.map(todo => {
   };
 });
 
+const getBiggerTodoId =
+  todosFromServer.reduce((maxId, todo) => {
+    return todo.id > maxId ? todo.id : maxId;
+  }, 0) + 1;
+
 export const App = () => {
   const [title, setTitle] = useState('');
   const [hasTitleError, setHasTitleError] = useState(false);
@@ -55,7 +60,7 @@ export const App = () => {
     const selectedUser = usersFromServer.find(user => user.id === userId);
 
     const newTodo: Todos = {
-      id: Date.now(),
+      id: getBiggerTodoId,
       title,
       userId,
       completed: false,
@@ -86,15 +91,16 @@ export const App = () => {
           </label>
           <input
             id="todo-title"
-            className={classNames('field__input', { error: hasTitleError })}
+            className={classNames('field__input', {
+              error__field: hasTitleError,
+            })}
             type="text"
             data-cy="titleInput"
+            placeholder="Title"
             value={title}
             onChange={event => handleTitleChange(event)}
           />
-          {hasTitleError && (
-            <p className="error__message">Please enter a title</p>
-          )}
+          {hasTitleError && <p className="error">Please enter a title</p>}
         </div>
 
         <div className="field">
@@ -103,7 +109,9 @@ export const App = () => {
           </label>
           <select
             id="todo-user"
-            className={classNames('field__select', { error: hasUserIdError })}
+            className={classNames('field__select', {
+              error__field: hasUserIdError,
+            })}
             data-cy="userSelect"
             value={userId ?? 0}
             onChange={event => handleUserChange(event)}
@@ -119,9 +127,7 @@ export const App = () => {
             ))}
           </select>
 
-          {hasUserIdError && (
-            <p className="error__message">Please choose a user</p>
-          )}
+          {hasUserIdError && <p className="error">Please choose a user</p>}
         </div>
 
         <button type="submit" data-cy="submitButton">
@@ -129,7 +135,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList userTodo={userTodo} />
+      <TodoList todos={userTodo} />
     </div>
   );
 };

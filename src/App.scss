@@ -12,8 +12,8 @@ button {
 }
 
 .error {
-  font-size: 10px;
   margin: 0;
+  font-size: 10px;
   color: red;
 }
 
@@ -47,6 +47,7 @@ button {
   padding: 8px;
   border: 1px solid #000;
   border-radius: 8px;
+
   background-color: antiquewhite;
 
   &__title {
